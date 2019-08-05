@@ -1168,7 +1168,7 @@ namespace proxyServer
                 }
                 else if (command.StartsWith("generate_ca"))
                 {
-                    string sub = command.Substring(12);
+                    string sub = command.Substring(11);
                     bool result = false;
                     if (sub.Length == 0) result = CertMod.GenerateCA();
                     else
@@ -9159,6 +9159,11 @@ namespace proxyServer
         {
             if (!IPAddress.TryParse(hostname, out IPAddress address))
             {
+                if (hostname.Contains(":"))
+                {
+                    hostname = hostname.Substring(0, hostname.IndexOf(":"));
+                }
+
                 IPAddress[] ips = Dns.GetHostAddresses(hostname);
                 return (ips.Length > 0) ? ips[0] : null;
             }
