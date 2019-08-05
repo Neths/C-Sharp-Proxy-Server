@@ -9,7 +9,6 @@ using System;
 using System.ComponentModel;
 using System.IO;
 using System.Runtime.InteropServices;
-using System.Runtime.Serialization;
 
 namespace Brotli
 {
@@ -276,74 +275,6 @@ namespace Brotli
         {
             void Read([Out, MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 1)] byte[] pv, int cb, IntPtr pcbRead);
             void Write([MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 1)] byte[] pv, int cb, IntPtr pcbWritten);
-        }
-    }
-
-    [StructLayout(LayoutKind.Sequential)]
-    public struct CompressionParameters
-    {
-        public CompressionMode Mode;
-
-        // Controls the compression-speed vs compression-density tradeoffs. The higher the quality, the slower the compression. Range is 0 to 11.
-        public int Quality;
-
-        // Base 2 logarithm of the sliding window size. Range is 10 to 24.
-        public int LgWin;
-
-        // Base 2 logarithm of the maximum input block size. Range is 16 to 24. If set to 0, the value will be set based on the quality.
-        public int LgBlock;
-
-        [MarshalAs(UnmanagedType.I1)]
-        public bool EnableDictionary;
-
-        [MarshalAs(UnmanagedType.I1)]
-        public bool EnableTransforms;
-
-        [MarshalAs(UnmanagedType.I1)]
-        public bool GreedyBlockSplit;
-
-        [MarshalAs(UnmanagedType.I1)]
-        public bool EnableContextModeling;
-    }
-
-    public enum CompressionMode
-    {
-        // Default compression mode. The compressor does not know anything in advance about the properties of the input.
-        Generic = 0,
-
-        // Compression mode for UTF-8 format text input.
-        Text = 1,
-
-        // Compression mode used in WOFF 2.0.
-        Font = 2
-    }
-
-    [Serializable]
-    public class BrotliException : IOException
-    {
-        public BrotliException()
-            : base(string.Empty)
-        {
-        }
-
-        public BrotliException(string message)
-            : base(message)
-        {
-        }
-
-        public BrotliException(string message, Exception innerException)
-            : base(message, innerException)
-        {
-        }
-
-        public BrotliException(Exception innerException)
-            : base(null, innerException)
-        {
-        }
-
-        protected BrotliException(SerializationInfo info, StreamingContext context)
-            : base(info, context)
-        {
         }
     }
 }
